@@ -1,3 +1,3 @@
 # python-labs
 
-## Repository for Python Basics Scripts
+Repository for Python Basics Scripts
