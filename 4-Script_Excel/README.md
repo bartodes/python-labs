@@ -18,5 +18,6 @@ The results of which playlist has the most listened songs are added on a new she
 ### Instructions
 
 ```sh
+pip install openpyxl
 python3 main.py #or py main.py
 ```
