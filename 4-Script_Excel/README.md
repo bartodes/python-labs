@@ -1,8 +1,7 @@
 # Python Script For Excel Automation
-
 *Using python openpyxl-3.1.2 library*
 
-Automation of data taken from an Excel file. 
+## Automation for an excel file 
 
 In this case, I had created a simple spreadsheet 'songsFromPlaylist.xlsx'
 It has 'songs' that come from a specific 'playlist'.
