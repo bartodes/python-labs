@@ -12,3 +12,11 @@ They have 'artists' and 'listeners'.
 | 1    | ...       | ...     | Example1  |
 | 2    | ...       | ...     | Example2  |
 | 3    | ...       | ...     | Example3  |
+
+The results of which playlist has the most listened songs are added on a new sheet! (Once the program has been executed)
+
+### Instructions
+
+```sh
+python3 main.py #or py main.py
+```
