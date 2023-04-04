@@ -2,7 +2,7 @@ import openpyxl
 
 
 def songsPerPlaylist(working_sheet):
-    playlist_songs = {} #the amount of songs in a playlist
+    playlist_songs = {} # Reading the amount of songs in a playlist
 
     for row in range(2, working_sheet.max_row + 1):
         playlist = working_sheet.cell(row, 4).value
@@ -17,7 +17,7 @@ def songsPerPlaylist(working_sheet):
 
 def listenersPerPlaylist(working_sheet):
     global playlist_listeners
-    playlist_listeners = {} #the total of listeners per playlist
+    playlist_listeners = {} # Reading the total of listeners per playlist
     
     for row in range(2, working_sheet.max_row + 1):
         playlist = working_sheet.cell(row, 4).value
@@ -32,7 +32,7 @@ def listenersPerPlaylist(working_sheet):
 
 
 def listenersPerArtist(working_sheet):
-    artist_listeners = {} #the total of listeners per artist
+    artist_listeners = {} # Reading the total of listeners per artist
 
     for row in range(2, working_sheet.max_row + 1):
         artist = working_sheet.cell(row, 3).value
@@ -47,7 +47,7 @@ def listenersPerArtist(working_sheet):
 
 
 def playlistForgottenSongs(working_sheet):
-    playlist_forgotten_songs = {} #the amount of songs under 100,000 listeners in a playlist
+    playlist_forgotten_songs = {} # Reading the amount of songs under 100,000 listeners in a playlist
     forgotten_value = 100000
 
     for row in range(2, working_sheet.max_row + 1):
@@ -59,27 +59,40 @@ def playlistForgottenSongs(working_sheet):
         elif listeners <= forgotten_value:
             playlist_forgotten_songs[playlist] = 1
         
-    print(f"The songs under 100000 listeners: \n{playlist_forgotten_songs}\n")
+    print(f"The amount of songs under 100000 listeners: \n{playlist_forgotten_songs}\n")
 
 
-def addSheet(working_file, working_sheet):
-    working_file.create_sheet("Playlist Popularity")
+def addResultsSheet(working_file):
+    # Writing in a new sheet the total listeners from all the songs, that the playlist has.
+
+    working_file.create_sheet("Playlist Popularity") 
     results_sheet = working_file["Playlist Popularity"]
+    
+    headers = ["N°","Playlists","Listeners"]
+    for i in range(len(headers)):
+        results_sheet.cell(1, i + 1).value = headers[i]
 
+    values_list = list(playlist_listeners.values())
+    values_list.sort(reverse=True)
+    
     for i in range(2, len(playlist_listeners) + 2):
-        print(results_sheet.cell(i, 1).value)
+        results_sheet.cell(i, 1).value = i - 1
+        results_sheet.cell(i, 3).value = values_list[i - 2]
+        for k, v in playlist_listeners.items():
+            if values_list[i - 2] == v:
+                results_sheet.cell(i, 2).value = k
 
-    #print("Results sheet named 'Playlist Popularity' has been added. \nCheck it out!")
-    #working_file.save()
+    working_file.save("songsFromPlaylist.xlsx")
+    print("Results sheet named 'Playlist Popularity' has been added. \nCheck it out!")
 
 
 def main():
     file = openpyxl.load_workbook("songsFromPlaylist.xlsx")
     sheet = file["Sheet1"]
     
-    #songsPerPlaylist(sheet)
+    songsPerPlaylist(sheet)
     listenersPerPlaylist(sheet)
-    #listenersPerArtist(sheet)
-    #playlistForgottenSongs(sheet)
-    addSheet(file, sheet)
+    listenersPerArtist(sheet)
+    playlistForgottenSongs(sheet)
+    addResultsSheet(file)
 main()
